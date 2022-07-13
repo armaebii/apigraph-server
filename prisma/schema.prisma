@@ -1,0 +1,28 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Action {
+  id        Int    @id @default(autoincrement())
+  type      String
+  status    String
+  amount    String
+  party     String
+  narrative String
+  ref       String
+  trxn      String
+  log       Log    @relation(fields: [logId], references: [id])
+  logId     Int
+}
+
+model Log {
+  id      Int      @id @default(autoincrement())
+  date    String
+  actions Action[]
+}
